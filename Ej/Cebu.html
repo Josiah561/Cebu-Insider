@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cebu Insider</title>
+
+    <style>
+        html {
+            --svg-color: #00cdfb;
+            --bg-color: rgb(27, 27, 27);
+            --font-color: #00cdfb;
+            overflow-x: hidden;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--font-color);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        nav {
+
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            background-color: rgba(0, 0, 0, 0.408);
+            backdrop-filter: blur(10px);
+            box-sizing: border-box;
+
+
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            width: 50px;
+            /* smaller width */
+            height: auto;
+            /* keeps proportions */
+        }
+
+
+        .logo svg {
+            width: 40px;
+            height: 40px;
+            fill: none;
+            stroke: var(--svg-color);
+            stroke-width: 8;
+        }
+
+        .logo h1 {
+            font-size: 70px;
+            margin: 0;
+        }
+
+        .nav-center {
+            order: 3;
+            text-align: center;
+        }
+
+        .nav-center a {
+            text-decoration: none;
+            color: var(--font-color);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .search {
+            order: 2;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search input {
+            width: 80%;
+            padding: 6px 10px;
+            font-size: 0.9rem;
+            border: 2px solid var(--svg-color);
+            border-radius: 20px;
+            outline: none;
+            background: transparent;
+            color: var(--font-color);
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 80px;
+            overflow: hidden;
+        }
+
+        .hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            filter: brightness(80%);
+        }
+
+        .hero-svg {
+            width: 150px;
+            height: auto;
+            display: block;
+            margin: 20px auto 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 95%;
+            /* increased from 100% max-width 1200px */
+            max-width: 1400px;
+            /* optional, increase max-width */
+            margin: 0 auto;
+            padding: 0.5rem;
+            /* reduce padding */
+            box-sizing: border-box;
+        }
+
+        .blog-post {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            border-radius: 10px;
+            padding: 1.5rem;
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+
+        .article-main {
+            flex: 2;
+        }
+
+        .article-sidebar {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            border-left: 1px solid #e0e0e0;
+            padding-left: 1.5rem;
+            font-size: 16px;
+            color: #333333;
+            min-height: 100%;
+            /* optional for full height effect */
+        }
+
+        .article-sidebar h3 {
+            margin-top: 0;
+            color: #222222;
+            font-size: 20px;
+        }
+
+        .article-sidebar a {
+            color: #00cdfb;
+            text-decoration: none;
+        }
+
+        .article-sidebar a:hover {
+            text-decoration: underline;
+        }
+
+        .article-images {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .article-images img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .article-images img:hover {
+            transform: scale(1.05);
+        }
+
+        .article-main p {
+            color: black;
+            text-align: justify;
+            line-height: 1.7;
+            /* improves readability */
+        }
+
+        .article-main h2 {
+            font-size: 40px;
+            color: #000000;
+            font-weight: bold;
+        }
+
+
+        @media (min-width: 1200px) {
+            .blog-post {
+                flex-direction: row;
+                gap: 2rem;
+            }
+        }
+
+
+        footer {
+            width: 100%;
+            background-color: #000000;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 1rem;
+            border-top: 1px solid gainsboro;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+
+        .greeting-text {
+            position: absolute;
+            top: 30%;
+            left: 5%;
+            width: auto;
+            text-align: left;
+            font-size: 100px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 2;
+        }
+
+        .sub-greeting {
+            font-size: 30px;
+            font-weight: normal;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            margin-top: 20px;
+            text-align: justify;
+            max-width: 90%;
+            line-height: 1.5;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .img-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .img-container:hover img {
+            transform: scale(1.1);
+        }
+
+        .img-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .img-container:hover .img-overlay {
+            opacity: 1;
+        }
+
+        .sidebar-trivia {
+            margin-bottom: 2rem;
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .sidebar-trivia h3 {
+            margin-top: 0;
+            color: #00cdfb;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .sidebar-blogger {
+            margin-top: auto;
+            /* pushes this section to the bottom */
+        }
+
+        @media (min-width: 769px) {
+            nav {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 10px 30px;
+            }
+
+            .nav-center {
+                order: 0;
+                flex: 1;
+                text-align: center;
+            }
+
+            .search {
+                order: 0;
+                width: auto;
+                justify-content: flex-end;
+            }
+
+            .search input {
+                width: 200px;
+                font-size: 1rem;
+            }
+
+            .hero-svg {
+                width: 120px;
+            }
+
+            .article-sidebar {
+                border-left: 1px solid #e0e0e0;
+                padding-left: 1.5rem;
+            }
+        }
+
+        /* Large devices: desktops */
+        @media (min-width: 1200px) {
+            nav {
+                padding: 15px 60px;
+            }
+
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+
+            .search input {
+                width: 35vh;
+            }
+
+            .hero-svg {
+                width: 100px;
+            }
+
+            .blog-post {
+                flex-direction: row;
+                gap: 2rem;
+                align-items: flex-start;
+            }
+
+            .article-main {
+                flex: 2;
+            }
+
+            .article-sidebar {
+                flex: 1;
+                min-height: auto;
+                /* remove forced height issues */
+            }
+
+            .article-images {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .article-feature {
+                flex: 0 0 40%;
+            }
+
+            .article-feature img {
+                width: 100%;
+                height: auto;
+                border-radius: 5px;
+            }
+
+            .article-listing {
+                flex: 1;
+            }
+
+            .article-title {
+                margin-top: 0;
+                font-size: 2rem;
+            }
+        }
+
+        /* Extra large devices: wide screens */
+        @media (min-width: 1600px) {
+            .container {
+                max-width: 1600px;
+                padding: 1rem;
+            }
+
+            .article-main h2 {
+                font-size: 2.5rem;
+            }
+
+            .article-main p {
+                font-size: 1.1rem;
+            }
+
+            .sidebar-trivia {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <img src="Your paragraph text.svg" alt="Cebu Insider Logo" class="logo-img">
+
+            <h1>Cebu Insider</h1>
+        </div>
+
+        <div class="nav-center">
+            <a href="#">Home</a>
+        </div>
+
+        <div class="search">
+            <input type="text" placeholder="Search...">
+        </div>
+    </nav>
+
+    <section class="hero">
+        <img src="hd-cebu.jpg" alt="cebu background">
+        <div class="greeting-text">Maayong Adlaw!
+            <div class="sub-greeting">Cebu is a vibrant island where history, tradition, and local flavors come
+                together. From iconic landmarks to mouthwatering dishes and hidden natural gems, Cebu offers a unique
+                experience for every traveler. Discover its stories, taste its cuisine, and immerse yourself in the
+                culture that makes this island truly unforgettable
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <div class="container">
+            <article id="welcome" class="blog-post">
+                <div class="article-main">
+                    <h2 class="article-title">Lechon Cebu and Magellan’s Cross: Treasures of Cebu
+                    </h2>
+                    <div class="article-images">
+                        <div class="img-container">
+                            <img src="ricoslechon_large.jpg" alt="Lechon Cebu 1">
+                            <span class="img-overlay">Lechon</span>
+                        </div>
+                        <div class="img-container">
+                            <img src="1__ODZre7ijbY3jk9adrs1jg.jpg" alt="Magellan’s Cross 1">
+                            <span class="img-overlay">Magellan’s Cross</span>
+                        </div>
+                        <div class="img-container">
+                            <img src="cebu-magellans-cross-banner.png" alt="Magellan’s Cross 2">
+                            <span class="img-overlay">Magellan’s Cross</span>
+                        </div>
+                        <div class="img-container">
+                            <img src="Best-Delicacies-in-Cebu-lechon-1024x519.png" alt="Lechon Cebu 2">
+                            <span class="img-overlay">Lechon</span>
+                        </div>
+                    </div>
+
+                    <p>
+                        Cebu, known as the Queen City of the South, is one of the most popular destinations in the
+                        Philippines. It is famous for its rich history, beautiful landmarks, and mouthwatering food. Two
+                        of the most well-known symbols of the island are <strong>Lechon Cebu and Magellan’s
+                            Cross</strong> , both proudly representing Cebu’s culture and tradition.
+                    </p>
+                    <p>Lechon Cebu is one of the most delicious and famous dishes in the country. It is a whole pig
+                        roasted over charcoal until the skin turns crispy and golden brown, while the meat inside stays
+                        juicy and flavorful. What makes it special is the mixture of herbs and spices like lemongrass,
+                        garlic, and onions stuffed inside before roasting. Because of its strong smokey flavor, Lechon
+                        Cebu is often enjoyed even without any sauce. It is served during festivals, birthdays, and
+                        other important celebrations, making it a true symbol of Filipino gatherings.
+                    </p>
+                    <p>
+                        Interestingly, visitors who come to see Magellan’s Cross can also enjoy this famous dish nearby.
+                        Around the area of the cross, there are food stalls and local eateries where freshly cooked
+                        Lechon Cebu is sold. Many tourists and locals stop by after visiting the historic landmark to
+                        taste Cebu’s best delicacy. The smell of roasted lechon often fills the streets, inviting
+                        everyone to take a bite. Eating Lechon Cebu near Magellan’s Cross gives people a complete Cebu
+                        experience, a mix of history, faith, and authentic Filipino flavor.
+                    </p>
+                    <p>
+                        Magellan’s Cross, on the other hand, is one of the most important historical sites in the
+                        Philippines. It was planted by Portuguese explorer Ferdinand Magellan in 1521 to mark the
+                        arrival of Christianity in the country. Today, the cross stands inside a small chapel near the
+                        Basilica Minore del Santo Niño and continues to be a symbol of Cebu’s strong faith and history.
+                    </p>
+                    <p>
+                        Both Lechon Cebu and Magellan’s Cross show the pride and culture of Cebu. One tells the story of
+                        faith and the beginning of Christianity, while the other celebrates the people’s love for good
+                        food and tradition. Visiting Cebu means not only seeing where history was made but also tasting
+                        one of the best dishes the Philippines has to offer the world famous Lechon Cebu.
+                    </p>
+                    <a
+                        href="https://travelsetu.com/guide/magellan-s-cross-tourism/food-in-magellan-s-cross?utm_source=chatgpt.com">Source
+                        Here
+                    </a>
+                </div>
+                <div class="article-sidebar">
+                    <div class="sidebar-trivia">
+                        <h3>Trivia</h3>
+                        <p>Did you know? Lechon Cebu is so famous that it was once voted as the <strong>best roasted pig
+                                in the world</strong> by CNN Travel! 🍖</p>
+                        <p>Also, Magellan’s Cross has stood for over <strong>500 years</strong>, surviving time and
+                            weather while marking the arrival of Christianity in the Philippines.</p>
+                        <p>Cebu is known as the <strong>Queen City of the South</strong> because of its historical and
+                            economic significance in the Philippines. 👑</p>
+                        <p>The streets around Magellan’s Cross are lined with local eateries selling freshly roasted
+                            Lechon, giving visitors a perfect combination of history and flavor. 🍽️</p>
+                        <p>The Sinulog Festival, held every January, celebrates the Santo Niño and draws millions of
+                            visitors to Cebu with its vibrant parades and street dancing. 🎉</p>
+                        <p>Cebu’s Mactan Island was the site of the historic <strong>Battle of Mactan</strong> in 1521,
+                            where local chieftain Lapu-Lapu defeated Ferdinand Magellan. 🏝️</p>
+                        <p>Cebu is home to some of the sweetest mangoes in the world, known as <strong>Cebu dried
+                                mangoes</strong>, a popular souvenir for tourists. 🥭</p>
+                        <p>The Basilica Minore del Santo Niño, near Magellan’s Cross, houses the oldest religious relic
+                            in the Philippines, a small statue of the Santo Niño dating back to Magellan’s arrival. 🕊️
+                        </p>
+                    </div>
+
+                    <div class="sidebar-blogger">
+                        <h3>About the Blogger</h3>
+                        <p><strong>Marcus Kalaw</strong></p>
+                        <p>09628620685</p>
+                        <p>marcusbkalaw@gmail.com</p>
+                        <p></p>
+                        <p><strong>Makenzie Maloles</strong></p>
+                        <p>09294710247</p>
+                        <p>makenzie.maloles@gmail.com</p>
+
+                    </div>
+                </div>
+            </article>
+            <article id="welcome" class="blog-post">
+                <div class="article-main">
+                    <h2 class="article-title">From Kawasan Falls to the Table: Seafood Adventures in Badian
+                    </h2>
+                    <div class="article-images">
+                        <div class="img-container">
+                            <img src="352237980_951897609388213_4642238981522303248_n-min.jpg" alt="Kawasan Falls">
+                            <span class="img-overlay">Kawasan Falls</span>
+                        </div>
+                        <div class="img-container">
+                            <img src="cebu-badian-kabukalan-spring-12-5-5.jpg" alt="Badian">
+                            <span class="img-overlay">Badian, Cebu</span>
+                        </div>
+                        <div class="img-container">
+                            <img src="garlic-butter-shrimp-1.jpg" alt="garlic-butter-shrimp">
+                            <span class="img-overlay">Garlic Butter Shrimp</span>
+                        </div>
+                        <div class="img-container">
+                            <img src="aerial-view-of-the-beach.jpg" alt="Badian">
+                            <span class="img-overlay">Badian</span>
+                        </div>
+                    </div>
+
+                    <p>
+                        <strong>Badian</strong>, a quiet town in southern Cebu, is best known for Kawasan Falls, one of
+                        the most popular
+                        tourist spots in the province. People visit to swim in the clear <strong>turquoise water, go
+                            canyoneering, or just enjoy the calm and natural surroundings.</strong> But what many don’t
+                        realize is
+                        that Badian also has some amazing seafood that perfectly matches its laid-back coastal vibe.
+
+                    </p>
+                    <p>
+                        The seafood here is all about freshness. Most of the fish, shrimp, and squid served in local
+                        restaurants come straight from the nearby sea. You can really taste the difference. Grilled fish
+                        is one of the most common dishes you’ll find around town. It’s often served with soy sauce,
+                        calamansi, and chili on the side. The smoky flavor from the grill and the tangy sauce make it
+                        simple but delicious.
+
+                    </p>
+                    <p>
+                        Garlic butter shrimp is another local favorite. The shrimp are cooked in butter and garlic until
+                        they’re tender and full of flavor. The smell alone is enough to make you hungry. It’s usually
+                        served with a generous portion of rice, making it a satisfying and budget-friendly meal—perfect
+                        for travelers or students exploring the area.
+
+                    </p>
+                    <p>
+                        There are also small carinderias and homestays that serve home-cooked seafood meals. These
+                        places might look humble, but they offer some of the most authentic and
+                        comforting food you’ll find. Dishes like fried fish with vinegar and chili or seafood soup with
+                        fresh vegetables show just how much locals value freshness and simplicity.
+
+                    </p>
+                    <p>
+                        Eating seafood in Badian isn’t about fancy presentation or high-end restaurants. It’s about
+                        honest flavors, friendly people, and the relaxed island atmosphere that makes the food taste
+                        even better. Whether you’re by the beach or near the falls, the seafood in Badian offers a real
+                        taste of Cebu. Overall, it deserves a solid 9 out of 10 for freshness, flavor, and the warm,
+                        local experience it brings.
+
+                    </p>
+                    <a href="https://kawasanfalls.net/">Source Here
+                    </a>
+                </div>
+                <div class="article-sidebar">
+                    <div class="sidebar-trivia">
+                        <h3>Trivia</h3>
+                        <p>Did you know? Badian’s seafood is so fresh that many restaurants receive deliveries directly
+                            from local fishermen every morning! 🐟</p>
+                        <p>Garlic butter shrimp, a local favorite, is often cooked with ingredients sourced from the
+                            town itself, like Cebu’s own garlic and locally made butter. 🦐</p>
+                        <p>Many of Badian’s small carinderias have been family-run for decades, preserving recipes that
+                            are passed down through generations. 🍴</p>
+                        <p>The clear waters near Kawasan Falls not only attract tourists for swimming and canyoneering,
+                            but they also provide a rich source of seafood that ends up on your plate the same day. 🌊
+                        </p>
+                        <p>Grilled fish is often enjoyed with a squeeze of local calamansi and chili, giving it a tangy
+                            and spicy kick that’s uniquely Cebuano. 🌶️</p>
+                        <p>Badian locals celebrate their love for seafood during festivals, where freshly caught fish
+                            and shrimp are served to visitors and residents alike. 🎉</p>
+                        <p>The town’s coastal communities rely on sustainable fishing practices, ensuring the waters
+                            around Badian stay abundant for generations. 🌱</p>
+                        <p>Even small homestays in Badian often serve home-cooked seafood dishes, giving travelers an
+                            authentic taste of local life. 🏡</p>
+                        <p>Canyoneering adventures in Kawasan Falls sometimes end with a seafood lunch right by the
+                            river, combining adventure and flavor in one experience. 🏞️</p>
+                        <p>The flavors of Badian’s seafood are so highly praised that food enthusiasts from all over
+                            Cebu make the trip just to enjoy a fresh meal by the beach. 🍽️</p>
+                    </div>
+
+                    <div class="sidebar-blogger">
+                        <h3>About the Blogger</h3>
+
+                        <p></p>
+                        <p><strong>Hanz Nicolo Dela Cruz</strong></p>
+                        <p>09186405056</p>
+                        <p>hanzniclodelacruz@gmail.com</p>
+                        <p><strong>Nathan Paras</strong></p>
+                        <p>09386781459</p>
+                        <p>nathanparas23@gmail.com</p>
+
+                    </div>
+                </div>
+            </article>
+            <article id="welcome" class="blog-post">
+                <div class="article-main">
+                    <h2 class="article-title">Camotes Islands: A Taste of Tradition, Nature, and Filipino Warmth
+                    </h2>
+                    <div class="article-images">
+                        <div class="img-container">
+                            <img src="75576641_2717792521610842_5671648281671761920_n.jpg" alt="Camote's Island">
+                            <span class="img-overlay">Camote's Island</span>
+                        </div>
+                        <div class="img-container">
+                            <img src="sutukil-squid645.jpg" alt="Sutukil">
+                            <span class="img-overlay">Sutukil</span>
+                        </div>
+                        <div class="img-container">
+                            <img src="A_variety_of_Nilupak.jpg" alt="Nilusak">
+                            <span class="img-overlay">Nilusak</span>
+                        </div>
+                        <div class="img-container">
+                            <img src="20484797339_eabaf0493a_z.jpg" alt="Camote's Island Sunset">
+                            <span class="img-overlay">Camote's Island Sunset</span>
+                        </div>
+                    </div>
+
+                    <p>
+                        Camotes Islands, often called<strong> Cebu’s Hidden Paradise,</strong> is a place where nature,
+                        culture, and
+                        tradition come together beautifully. Known for its serene beaches, crystal-clear waters, and
+                        friendly locals, Camotes is the perfect destination for travelers who want to experience the
+                        peaceful side of the Philippines and taste its rich culinary heritage at the same time.
+
+                    </p>
+                    <p>
+                        One of the best ways to get to know Camotes is through its local cuisine, which reflects the
+                        islanders’ simple and natural way of living. Because Camotes is surrounded by the sea, fresh
+                        seafood is always on the table. The famous<strong> Sutukil</strong> short for Sugba
+                        (grill),<strong> Tuwa </strong>(stew), and
+                        <strong> Kilaw</strong> (ceviche) shows how Cebuanos love to cook their catch in three different
+                        ways.
+
+
+                    </p>
+                    <p>
+                        The fish is grilled until smoky and crisp, simmered into a fragrant soup with herbs, or
+                        marinated in vinegar and chili for a burst of freshness. This dish perfectly represents the
+                        island lifestyle simple, flavorful, and shared with loved ones.
+                        Aside from seafood, the name<strong> “Camotes”</strong> itself comes from the Filipino
+                        word<strong> “kamote”</strong>, meaning
+                        sweet potato. This root crop, along with cassava and coconut, is used in many traditional
+                        delicacies such as Nilusak (mashed cassava with coconut milk) and Binignit, a sweet stew made of
+                        yam, banana, and tapioca. These dishes are often prepared during family gatherings and town
+                        fiestas, showing the locals’ deep sense of community and celebration.
+
+
+                    </p>
+                    <p>
+
+                        Dining in Camotes is also a feast for the soul. Imagine eating freshly grilled fish and Nilusak
+                        by Santiago Bay while watching the golden sunset a perfect moment of peace and gratitude. In
+                        Camotes, food is not just something you eat; it’s a reflection of the island’s heart and the
+                        Filipino way of life humble, generous, and full of warmth.
+                        Visiting Camotes Islands means discovering not only its natural beauty but also the traditions
+                        and flavors that make Cebu truly unforgettable.
+
+
+                    </p>
+
+                    <a href="https://www.pwc.com/ph/en/gems/camotes.html">Source Here
+                    </a>
+                </div>
+                <div class="article-sidebar">
+                    <div class="sidebar-trivia">
+                        <h3>Trivia</h3>
+                        <p>Did you know? The name “Camotes” comes from the Filipino word <strong>“kamote”</strong>, or
+                            sweet potato, which is a staple in many local dishes! 🍠</p>
+                        <p>Camotes’ famous <strong>Sutukil</strong> lets you enjoy the same fresh catch three ways:
+                            grilled, stewed, and ceviche-style—all in one meal! 🐟</p>
+                        <p>Nilusak, a traditional mashed cassava dessert, is often served during family gatherings and
+                            town fiestas, highlighting the island’s strong sense of community. 🥥</p>
+                        <p>The fish used in Sutukil is usually caught the same day, ensuring every bite is incredibly
+                            fresh. 🌊</p>
+                        <p>Many locals still cook using traditional methods over wood or charcoal fires, giving their
+                            dishes that unique smoky flavor you won’t find in restaurants. 🔥</p>
+                        <p>Camotes is home to stunning hidden caves and springs, making it a perfect mix of adventure
+                            and culinary discovery. 🏞️</p>
+                        <p>The island’s golden sunsets are so famous that many visitors plan their Sutukil meals
+                            specifically to enjoy the view while dining. 🌅</p>
+                        <p>Aside from seafood, Camotes locals love using coconuts in both savory and sweet dishes,
+                            showing just how versatile this tropical fruit can be. 🥥</p>
+                        <p>During town fiestas, traditional music and dance often accompany the feast, turning every
+                            meal into a full cultural experience. 🎶</p>
+                        <p>The simplicity of Camotes cuisine reflects the island’s lifestyle: fresh, natural, and shared
+                            with family and friends. 🤝</p>
+                    </div>
+
+                    <div class="sidebar-blogger">
+                        <h3>About the Blogger</h3>
+                        <p><strong>John Emmanuel Balane</strong></p>
+                        <p>09667744647</p>
+                        <p>ejbalane6@gmail.com</p>
+                        <p><strong>Steven Franklin Peraz</strong></p>
+                        <p>09217110236</p>
+                        <p>stevenfranklinperaz07@gmail.com</p>
+
+
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Designed by John Emmanuel Balane</p>
+    </footer>
+    <script>
+        const greeting = document.querySelector('.greeting-text');
+        const subGreeting = document.querySelector('.sub-greeting');
+
+        window.addEventListener('scroll', () => {
+            const opacity = Math.max(1 - window.scrollY / 200, 0);
+            const translateY = -window.scrollY / 5;
+
+            greeting.style.opacity = opacity;
+            greeting.style.transform = `translateY(${translateY}px)`;
+
+            subGreeting.style.opacity = opacity;
+            subGreeting.style.transform = `translateY(${translateY}px)`;
+        });
+    </script>
+</body>
+
+</html>
